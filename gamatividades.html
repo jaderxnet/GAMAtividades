@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAMAtividades</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-deep:#160B33;
+  --bg-mid:#241453;
+  --bg-card:#2E1B66;
+  --gold:#FFD23F;
+  --pink:#FF5DA2;
+  --teal:#3DDC97;
+  --blue:#5AC8FA;
+  --text:#F4EFFF;
+  --text-dim:#B9A9E8;
+  --danger:#FF6464;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:radial-gradient(ellipse at top, var(--bg-mid), var(--bg-deep) 70%);
+  color:var(--text);
+  font-family:'Nunito',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4,.display{font-family:'Baloo 2',cursive;}
+#stars{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.star{position:absolute;background:#fff;border-radius:50%;opacity:.8;animation:twinkle 3s infinite ease-in-out;}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(.7);}50%{opacity:1;transform:scale(1.3);}}
+@keyframes floaty{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+@keyframes popin{from{transform:scale(.85);opacity:0;}to{transform:scale(1);opacity:1;}}
+@keyframes shimmer{0%{background-position:-200px 0;}100%{background-position:200px 0;}}
+#app{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:18px 20px 80px;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:10px 4px 18px;flex-wrap:wrap;gap:10px;}
+.logo{display:flex;align-items:center;gap:10px;font-size:26px;font-weight:800;cursor:pointer;}
+.logo .ico{animation:floaty 2.4s ease-in-out infinite;font-size:30px;}
+.navrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.btn{
+  border:none;border-radius:14px;padding:10px 18px;font-family:'Baloo 2';font-weight:700;font-size:15px;
+  cursor:pointer;transition:transform .15s, box-shadow .15s;color:#1B0E3D;
+  background:linear-gradient(135deg,var(--gold),#ffb347);box-shadow:0 4px 0 #c98c1a;
+}
+.btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 6px 0 #c98c1a;}
+.btn:active{transform:translateY(1px) scale(.98);}
+.btn.secondary{background:linear-gradient(135deg,var(--blue),#3a9fe0);box-shadow:0 4px 0 #2477ad;color:#08203a;}
+.btn.pink{background:linear-gradient(135deg,var(--pink),#e0408a);box-shadow:0 4px 0 #a82d68;color:#3a0822;}
+.btn.teal{background:linear-gradient(135deg,var(--teal),#21b97a);box-shadow:0 4px 0 #178257;color:#072d1d;}
+.btn.ghost{background:transparent;box-shadow:none;color:var(--text);border:2px solid #4a3690;}
+.btn.ghost:hover{border-color:var(--gold);}
+.btn.small{padding:6px 12px;font-size:13px;border-radius:10px;}
+.btn.danger{background:linear-gradient(135deg,var(--danger),#c23c3c);box-shadow:0 4px 0 #8c2a2a;color:#fff;}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.card{
+  background:linear-gradient(160deg, var(--bg-card), #251552);
+  border-radius:20px;padding:20px;border:1px solid #3f2c80;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);animation:popin .35s ease;
+}
+.card:hover{box-shadow:0 10px 30px rgba(255,210,63,.12);}
+.grid{display:grid;gap:16px;}
+.grid.cols-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+.grid.cols-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+input,textarea,select{
+  width:100%;padding:10px 12px;border-radius:10px;border:2px solid #4a3690;background:#1c1042;
+  color:var(--text);font-family:'Nunito';font-size:14px;margin-bottom:10px;
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold);}
+label{font-size:13px;color:var(--text-dim);font-weight:700;display:block;margin-bottom:4px;}
+.pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:800;font-family:'Baloo 2';}
+.pill.criada{background:#4a3690;}
+.pill.visualizada{background:#3a5a9f;}
+.pill.iniciada{background:#2477ad;}
+.pill.atrasada{background:var(--danger);}
+.pill.enviada{background:var(--teal);color:#072d1d;}
+.pill.enviada_atraso{background:#e0a93a;color:#3a2606;}
+.pill.avaliada{background:var(--pink);}
+.pill.concluida{background:var(--gold);color:#3a2606;}
+.progress-outer{background:#1c1042;border-radius:20px;height:16px;overflow:hidden;border:2px solid #3f2c80;}
+.progress-inner{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width .6s ease;position:relative;}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;border-bottom:2px solid #3f2c80;padding-bottom:10px;}
+.tab{padding:8px 16px;border-radius:12px 12px 0 0;cursor:pointer;font-family:'Baloo 2';font-weight:700;color:var(--text-dim);}
+.tab.active{background:var(--bg-card);color:var(--gold);}
+.tab:hover{color:var(--text);}
+.avatarimg{width:54px;height:54px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);background:#1c1042;display:flex;align-items:center;justify-content:center;font-size:24px;}
+.toast-area{position:fixed;top:16px;right:16px;z-index:999;display:flex;flex-direction:column;gap:8px;}
+.toast{background:linear-gradient(135deg,var(--teal),#1e9f6a);color:#072d1d;padding:12px 18px;border-radius:14px;font-weight:700;font-family:'Baloo 2';box-shadow:0 6px 20px rgba(0,0,0,.4);animation:popin .25s ease;}
+.muted{color:var(--text-dim);font-size:13px;}
+table{width:100%;border-collapse:collapse;}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid #3f2c80;font-size:14px;}
+th{color:var(--gold);font-family:'Baloo 2';}
+.hero{
+  position:relative;border-radius:24px;padding:46px 36px;overflow:hidden;
+  background:linear-gradient(135deg,#3a1f7a 0%, #1c0f49 60%);
+  border:1px solid #4d3699;margin-bottom:26px;
+}
+.hero h1{font-size:42px;margin:0 0 8px;}
+.hero .sub{font-size:17px;color:var(--text-dim);max-width:560px;}
+.badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+.section-title{display:flex;align-items:center;gap:10px;margin:30px 0 14px;font-size:22px;}
+.empty{text-align:center;padding:40px 20px;color:var(--text-dim);}
+.empty .big{font-size:46px;margin-bottom:10px;}
+.closebtn{cursor:pointer;color:var(--text-dim);float:right;font-size:18px;}
+.modal-bg{position:fixed;inset:0;background:rgba(8,4,24,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:20px;}
+.modal{max-width:560px;width:100%;max-height:88vh;overflow:auto;}
+.medal{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(135deg,var(--gold),#e0a93a);box-shadow:0 4px 12px rgba(0,0,0,.4);}
+.coinchip{display:inline-flex;align-items:center;gap:6px;background:#1c1042;border:1px solid var(--gold);border-radius:20px;padding:4px 12px;font-weight:800;color:var(--gold);font-family:'Baloo 2';}
+.checkbox-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.checkbox-row input{width:auto;margin:0;}
+a{color:var(--blue);}
+.studentrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #3f2c80;}
+.flexbetween{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-thumb{background:#4a3690;border-radius:10px;}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:300;}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div id="app"></div>
+<div class="toast-area" id="toastArea"></div>
+
+<script>
+/* ============================================================
+   GAMAtividades — sistema de gestão de turmas gamificadas
+   Protótipo funcional single-file (front-end), persistência
+   via window.storage (compartilhada, simula um "servidor" único
+   para que os papéis Admin / Professor / Aluno coexistam nesta
+   demonstração).
+   ============================================================ */
+
+const STORAGE_KEY = "gamatividades-db-v1";
+let DB = null;
+let SESSION = { userId:null, view:"home", classId:null, tab:"atividades", gamTab:"avatares" };
+
+/* ---------- estrelas de fundo ---------- */
+(function starfield(){
+  const c = document.getElementById('stars');
+  for(let i=0;i<70;i++){
+    const s = document.createElement('div');
+    s.className='star';
+    const size = Math.random()*3+1;
+    s.style.width=size+'px';s.style.height=size+'px';
+    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
+    s.style.animationDelay=(Math.random()*3)+'s';
+    c.appendChild(s);
+  }
+})();
+
+function uid(prefix){ return prefix+'_'+Math.random().toString(36).slice(2,9); }
+function nowISO(){ return new Date().toISOString(); }
+function fmtDate(iso){ if(!iso) return '—'; const d=new Date(iso); return d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); }
+
+function toast(msg, emoji){
+  const area = document.getElementById('toastArea');
+  const t = document.createElement('div');
+  t.className='toast';
+  t.innerHTML = (emoji||'✨')+' '+msg;
+  area.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .4s'; setTimeout(()=>t.remove(),400); }, 2800);
+}
+
+/* ---------- camada de dados ---------- */
+function defaultDB(){
+  return {
+    invites: [],   // {id,name,email,escola,status:'pendente'|'aprovado'|'recusado',token,role:'professor'}
+    users: [],     // {id,role,name,email,photo,location,schools:[],provider}
+    classes: [],   // ver shape abaixo
+    notifications: [], // {id,userId,text,date,read,classId}
+    adminPass: "admin123"
+  };
+}
+
+function classShape(p){
+  return {
+    id: uid('turma'),
+    professorId: p.professorId,
+    name: p.name,
+    desc: p.desc,
+    photo: p.photo || "",
+    studentIds: [],
+    invitePassword: "",
+    groups: [],       // {id,name,studentIds:[]}
+    activities: [],   // ver activityShape
+    phases: [],       // {id,name,activityIds:[]}
+    gam: {
+      enabled:false,
+      avatars: ["🦸","🧙","🐯","🦊","🐼","🐸","🦄","🐲","🐝","🦉"],
+      studentAvatar: {}, // studentId: emoji
+      attributes: [{id:uid('attr'),name:"Força",base:0},{id:uid('attr'),name:"Sabedoria",base:0},{id:uid('attr'),name:"Criatividade",base:0}],
+      studentAttrPoints: {}, // studentId: {attrId: value}
+      studentPA: {}, // studentId: pontos de atributo disponíveis
+      paPerMaxGrade: 2,
+      gamPhases: [], // {id,name}
+      currentGamPhase: null,
+      items: [], // {id,name,img,value}
+      studentItems: {}, // studentId:[itemId]
+      coinName: "GamaMoedas",
+      coinPerActivity: 5,
+      studentCoins: {}, // studentId: number
+      medals: [], // {id,name,icon,criteria}
+      studentMedals: {} // studentId:[medalId]
+    }
+  };
+}
+
+function activityShape(p){
+  return {
+    id: uid('ativ'),
+    classId: p.classId,
+    name: p.name,
+    desc: p.desc,
+    points: p.points || 10,
+    allowLate: !!p.allowLate,
+    start: p.start,
+    end: p.end,
+    type: p.type || 'individual', // individual | grupo
+    groupSubmitMode: p.groupSubmitMode || 'qualquer', // qualquer | todos
+    status: 'Criada',
+    history: [{status:'Criada', date: nowISO()}],
+    submissions: [] // {id, studentId or groupId, isGroup, content, date, late, grade, canResubmit, gradedAt}
+  };
+}
+
+async function loadDB(){
+  try{
+    const r = await window.storage.get('db', true);
+    DB = r ? JSON.parse(r.value) : defaultDB();
+  }catch(e){ DB = defaultDB(); }
+  if(!DB.adminPass) DB.adminPass = "admin123";
+}
+async function saveDB(){
+  try{ await window.storage.set('db', JSON.stringify(DB), true); }catch(e){ console.error('storage error', e); }
+}
+
+function notify(userId, text, classId){
+  DB.notifications.unshift({id:uid('notif'), userId, text, date:nowISO(), read:false, classId});
+}
+
+function currentUser(){ return DB.users.find(u=>u.id===SESSION.userId) || null; }
+function myClasses(){ const u=currentUser(); if(!u) return []; return DB.classes.filter(c=>c.professorId===u.id); }
+function studentClasses(){ const u=currentUser(); if(!u) return []; return DB.classes.filter(c=>c.studentIds.includes(u.id)); }
+function getClass(id){ return DB.classes.find(c=>c.id===id); }
+
+/* ============== RENDER ROOT ============== */
+async function boot(){
+  await loadDB();
+  route();
+}
+function go(view, extra){
+  SESSION.view = view;
+  if(extra) Object.assign(SESSION, extra);
+  route();
+}
+async function persistAndRoute(){ await saveDB(); route(); }
+
+function route(){
+  // verifica link de convite de aluno via querystring (?convite=ID)
+  const params = new URLSearchParams(location.search);
+  const conviteId = params.get('convite');
+  if(conviteId && SESSION.view!=='studentJoin' && SESSION.view!=='studentArea'){
+    SESSION.view='studentJoin'; SESSION.classId=conviteId;
+  }
+  const app = document.getElementById('app');
+  app.innerHTML = renderTopbar() + renderView();
+  window.scrollTo(0,0);
+}
+
+function renderTopbar(){
+  const u = currentUser();
+  let right = '';
+  if(!u){
+    right = `<button class="btn ghost small" onclick="go('login')">Entrar</button>
+             <button class="btn small" onclick="go('requestInvite')">Solicitar convite</button>
+             <button class="btn ghost small" onclick="go('admin')">Admin</button>`;
+  } else if(u.role==='admin'){
+    right = `<span class="muted">👑 Administrador</span> <button class="btn ghost small" onclick="logout()">Saxir</button>`.replace('Saxir','Saxir');
+    right = `<span class="muted">👑 Administrador</span> <button class="btn ghost small" onclick="logout()">Saxir</button>`;
+    right = `<span class="muted">👑 Administrador</span> <button class="btn ghost small" onclick="logout()">Saxir</button>`;
+  }
+  if(u && u.role==='admin'){
+    right = `<span class="muted">👑 Administrador</span> <button class="btn ghost small" onclick="logout()">Saxir</button>`;
+  }
+  if(u && u.role==='professor'){
+    right = `<div style="display:flex;align-items:center;gap:10px;">
+      <span class="avatarimg" style="width:36px;height:36px;font-size:16px;">${u.photo?`<img src="${u.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`:'👩‍🏫'}</span>
+      <strong>${u.name}</strong>
+      ${renderNotifBell(u)}
+      <button class="btn ghost small" onclick="logout()">Saxir</button>
+    </div>`;
+  }
+  if(u && u.role==='aluno'){
+    right = `<div style="display:flex;align-items:center;gap:10px;">
+      <span class="avatarimg" style="width:36px;height:36px;font-size:16px;">${u.photo?`<img src="${u.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`:'🎓'}</span>
+      <strong>${u.name}</strong>
+      ${renderNotifBell(u)}
+      <button class="btn ghost small" onclick="logout()">Saxir</button>
+    </div>`;
+  }
+  return `<div class="topbar">
+    <div class="logo" onclick="go('home')"><span class="ico">🎮</span> GAMAtividades</div>
+    <div class="navrow">${right.replace(/Saxir/g,'Saída')}</div>
+  </div>`;
+}
+
+function renderNotifBell(u){
+  const list = DB.notifications.filter(n=>n.userId===u.id);
+  const unread = list.filter(n=>!n.read).length;
+  return `<span style="position:relative;cursor:pointer;font-size:20px;" onclick="go('notifications')">🔔
+    ${unread? `<span style="position:absolute;top:-6px;right:-8px;background:var(--pink);color:#fff;border-radius:10px;font-size:11px;padding:1px 6px;font-weight:800;">${unread}</span>`:''}
+  </span>`;
+}
+
+function logout(){ SESSION.userId=null; go('home'); }
+
+/* ============== VIEW DISPATCH ============== */
+function renderView(){
+  switch(SESSION.view){
+    case 'home': return renderHome();
+    case 'requestInvite': return renderRequestInvite();
+    case 'admin': return renderAdmin();
+    case 'login': return renderLogin();
+    case 'onboarding': return renderOnboarding();
+    case 'dashboard': return renderDashboard();
+    case 'turmaCreate': return renderTurmaCreate();
+    case 'turmaDetail': return renderTurmaDetail();
+    case 'studentJoin': return renderStudentJoin();
+    case 'studentArea': return renderStudentArea();
+    case 'notifications': return renderNotifications();
+    default: return renderHome();
+  }
+}
+
+/* ============== HOME / GAMIFICA ============== */
+function renderHome(){
+  const totalTurmas = DB.classes.length;
+  const totalAlunos = new Set(DB.classes.flatMap(c=>c.studentIds)).size;
+  const destaque = DB.classes.slice(0,3);
+  return `
+  <div class="hero">
+    <div class="badge-row" style="margin-bottom:14px;">
+      <span class="pill" style="background:var(--gold);color:#3a2606;">⭐ Aprenda jogando</span>
+      <span class="pill" style="background:var(--teal);color:#072d1d;">🏆 Gamificação real</span>
+    </div>
+    <h1>Gamifica: turmas vivas, missões e conquistas 🚀</h1>
+    <div class="sub">Acompanhe as turmas, atividades e o desempenho dos times de heróis-estudantes em tempo real. Professores criam missões (atividades), distribuem XP, moedas e medalhas — tudo isso sem perder o controle pedagógico.</div>
+    <div style="margin-top:22px;display:flex;gap:12px;flex-wrap:wrap;">
+      <button class="btn" onclick="go('requestInvite')">✉️ Solicitar convite de professor</button>
+      <button class="btn ghost" onclick="go('login')">Já tenho conta — Entrar</button>
+    </div>
+  </div>
+
+  <div class="grid cols-3" style="margin-bottom:10px;">
+    <div class="card" style="text-align:center;"><div style="font-size:34px;">🏫</div><h2 style="margin:6px 0;">${totalTurmas}</h2><div class="muted">Turmas ativas</div></div>
+    <div class="card" style="text-align:center;"><div style="font-size:34px;">🧑‍🎓</div><h2 style="margin:6px 0;">${totalAlunos}</h2><div class="muted">Estudantes jogando</div></div>
+    <div class="card" style="text-align:center;"><div style="font-size:34px;">🎯</div><h2 style="margin:6px 0;">${DB.classes.reduce((a,c)=>a+c.activities.length,0)}</h2><div class="muted">Missões criadas</div></div>
+  </div>
+
+  <div class="section-title">🌟 Turmas em destaque</div>
+  ${destaque.length? `<div class="grid cols-3">${destaque.map(renderClassPublicCard).join('')}</div>` :
+    `<div class="empty card"><div class="big">🌌</div>Nenhuma turma cadastrada ainda. Seja o primeiro professor a lançar uma missão!</div>`}
+  `;
+}
+
+function renderClassPublicCard(c){
+  const prof = DB.users.find(u=>u.id===c.professorId);
+  const totalPts = c.activities.reduce((a,x)=>a+x.points,0);
+  const earned = c.activities.reduce((a,x)=> a + x.submissions.reduce((s,sub)=>s+(sub.grade||0),0),0);
+  const pct = totalPts? Math.min(100, Math.round(earned/totalPts*100)) : 0;
+  return `<div class="card">
+    <div style="display:flex;gap:10px;align-items:center;">
+      <span class="avatarimg">${c.photo?`<img src="${c.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`:'🏫'}</span>
+      <div><h3 style="margin:0;">${c.name}</h3><div class="muted">Prof. ${prof?prof.name:'—'}</div></div>
+    </div>
+    <p class="muted" style="min-height:36px;">${c.desc||''}</p>
+    <div class="progress-outer"><div class="progress-inner" style="width:${pct}%;"></div></div>
+    <div class="muted" style="margin-top:6px;">Desempenho geral: ${pct}% · ${c.studentIds.length} alunos · ${c.activities.length} missões</div>
+  </div>`;
+}
+
+/* ============== SOLICITAR CONVITE ============== */
+function renderRequestInvite(){
+  return `<div class="card" style="max-width:560px;margin:0 auto;">
+    <h2>✉️ Solicitar convite de professor</h2>
+    <p class="muted">Preencha os dados abaixo. Enviaremos sua solicitação para o e-mail do administrador e para a caixa de convites na área de Admin.</p>
+    <label>Nome completo</label><input id="ri_name" placeholder="Seu nome">
+    <label>E-mail</label><input id="ri_email" type="email" placeholder="voce@escola.com">
+    <label>Escola(s) onde leciona</label><input id="ri_escola" placeholder="Ex: Escola Municipal Sol Nascente">
+    <button class="btn" onclick="submitInviteRequest()">Enviar solicitação 🚀</button>
+    <button class="btn ghost" onclick="go('home')">Voltar</button>
+  </div>`;
+}
+async function submitInviteRequest(){
+  const name = val('ri_name'), email = val('ri_email'), escola = val('ri_escola');
+  if(!name||!email){ toast('Preencha nome e e-mail','⚠️'); return; }
+  DB.invites.push({id:uid('inv'), name, email, escola, status:'pendente', role:'professor', date:nowISO(), token:null});
+  console.log(`[E-mail simulado] Para: admin@gamatividades.com — Nova solicitação de convite de ${name} (${email})`);
+  toast('Solicitação enviada! O administrador foi notificado por e-mail.','✉️');
+  await persistAndRoute();
+  go('home');
+}
+function val(id){ const el=document.getElementById(id); return el? el.value.trim() : ''; }
+
+/* ============== ADMIN ============== */
+function renderAdmin(){
+  const u = currentUser();
+  if(!u || u.role!=='admin'){
+    return `<div class="card" style="max-width:420px;margin:0 auto;">
+      <h2>👑 Área do Administrador</h2>
+      <label>Senha de administrador</label>
+      <input id="admin_pass" type="password" placeholder="••••••">
+      <div class="muted" style="margin-bottom:10px;">Demo: senha padrão <code>admin123</code></div>
+      <button class="btn" onclick="adminLogin()">Entrar</button>
+      <button class="btn ghost" onclick="go('home')">Voltar</button>
+    </div>`;
+  }
+  const pendentes = DB.invites.filter(i=>i.status==='pendente');
+  const aprovados = DB.invites.filter(i=>i.status==='aprovado');
+  const professores = DB.users.filter(x=>x.role==='professor');
+  return `
+  <h2>👑 Painel do Administrador</h2>
+  <div class="section-title">📬 Caixa de convites pendentes (${pendentes.length})</div>
+  ${pendentes.length? pendentes.map(i=>`
+    <div class="card" style="margin-bottom:10px;">
+      <div class="flexbetween">
+        <div><strong>${i.name}</strong> — ${i.email}<div class="muted">${i.escola||''} · solicitado em ${fmtDate(i.date)}</div></div>
+        <div>
+          <button class="btn teal small" onclick="approveInvite('${i.id}')">Aprovar e convidar ✅</button>
+          <button class="btn danger small" onclick="rejectInvite('${i.id}')">Recusar</button>
+        </div>
+      </div>
+    </div>`).join('') : `<div class="empty card"><div class="big">📭</div>Nenhuma solicitação pendente.</div>`}
+
+  <div class="section-title">✅ Convites enviados</div>
+  ${aprovados.length? `<table><tr><th>Nome</th><th>E-mail</th><th>Status</th><th>Link de convite</th></tr>
+    ${aprovados.map(i=>`<tr><td>${i.name}</td><td>${i.email}</td><td><span class="pill enviada">${i.status}</span></td>
+      <td class="muted">token: ${i.token}</td></tr>`).join('')}</table>` : `<div class="muted">Nenhum convite enviado ainda.</div>`}
+
+  <div class="section-title">➕ Convidar professor diretamente</div>
+  <div class="card" style="max-width:480px;">
+    <label>Nome</label><input id="adm_name" placeholder="Nome do professor">
+    <label>E-mail</label><input id="adm_email" placeholder="email@escola.com">
+    <button class="btn" onclick="adminDirectInvite()">Enviar convite</button>
+  </div>
+
+  <div class="section-title">👩‍🏫 Professores na plataforma (${professores.length})</div>
+  ${professores.length? `<div class="grid cols-3">${professores.map(p=>`
+    <div class="card"><strong>${p.name}</strong><div class="muted">${p.email||''}</div><div class="muted">${(p.schools||[]).join(', ')}</div></div>`).join('')}</div>`
+    : `<div class="muted">Nenhum professor cadastrado ainda.</div>`}
+  `;
+}
+function adminLogin(){
+  const pass = val('admin_pass');
+  if(pass !== DB.adminPass){ toast('Senha incorreta','❌'); return; }
+  let admin = DB.users.find(u=>u.role==='admin');
+  if(!admin){ admin = {id:uid('user'), role:'admin', name:'Administrador'}; DB.users.push(admin); }
+  SESSION.userId = admin.id;
+  persistAndRoute();
+}
+async function approveInvite(id){
+  const inv = DB.invites.find(i=>i.id===id);
+  inv.status='aprovado'; inv.token = uid('tok');
+  console.log(`[E-mail simulado] Para: ${inv.email} — Você foi convidado(a) para o GAMAtividades! Token: ${inv.token}`);
+  toast('Convite aprovado e enviado por e-mail!','✅');
+  await persistAndRoute();
+}
+async function rejectInvite(id){
+  const inv = DB.invites.find(i=>i.id===id);
+  inv.status='recusado';
+  await persistAndRoute();
+}
+async function adminDirectInvite(){
+  const name=val('adm_name'), email=val('adm_email');
+  if(!name||!email){ toast('Preencha nome e e-mail','⚠️'); return; }
+  const token = uid('tok');
+  DB.invites.push({id:uid('inv'), name, email, escola:'', status:'aprovado', role:'professor', date:nowISO(), token});
+  console.log(`[E-mail simulado] Para: ${email} — Convite direto do admin. Token: ${token}`);
+  toast('Convite enviado!','✉️');
+  await persistAndRoute();
+}
+
+/* ============== LOGIN (simulado) ============== */
+function renderLogin(){
+  return `<div class="card" style="max-width:460px;margin:0 auto;text-align:center;">
+    <h2>🔐 Entrar no GAMAtividades</h2>
+    <p class="muted">Faça login para acessar sua turma. (Login social simulado nesta demonstração.)</p>
+    <button class="btn" style="width:100%;margin-bottom:8px;" onclick="socialLogin('Google')">🔵 Entrar com Google</button>
+    <button class="btn ghost" style="width:100%;margin-bottom:8px;" onclick="socialLogin('Apple')">🍎 Entrar com Apple</button>
+    <button class="btn secondary" style="width:100%;margin-bottom:16px;" onclick="socialLogin('Microsoft')">🪟 Entrar com Microsoft</button>
+    <hr style="border-color:#3f2c80;margin:16px 0;">
+    <label>E-mail (use o e-mail convidado, se houver)</label>
+    <input id="login_email" placeholder="voce@escola.com">
+    <button class="btn teal" style="width:100%;" onclick="emailLogin()">Entrar com e-mail</button>
+    <div style="margin-top:14px;"><button class="btn ghost small" onclick="go('home')">Voltar</button></div>
+  </div>`;
+}
+function findOrCreateProfessorByEmail(email, provider){
+  let u = DB.users.find(x=>x.email===email);
+  if(!u){
+    u = {id:uid('user'), role:'professor', name:'', email, photo:'', location:'', schools:[], provider, profileComplete:false};
+    DB.users.push(u);
+  }
+  return u;
+}
+async function socialLogin(provider){
+  // simula recuperação de e-mail do provedor
+  const fakeEmail = provider.toLowerCase()+'.'+Math.random().toString(36).slice(2,6)+'@login.com';
+  const u = findOrCreateProfessorByEmail(fakeEmail, provider);
+  SESSION.userId = u.id;
+  toast(`Login simulado via ${provider} realizado!`,'🔐');
+  await saveDB();
+  go(u.profileComplete? 'dashboard':'onboarding');
+}
+async function emailLogin(){
+  const email = val('login_email');
+  if(!email){ toast('Informe um e-mail','⚠️'); return; }
+  const invite = DB.invites.find(i=>i.email===email && i.status==='aprovado');
+  let u = DB.users.find(x=>x.email===email);
+  if(!u){
+    if(!invite){ toast('Este e-mail ainda não recebeu um convite aprovado.','🚫'); return; }
+    u = {id:uid('user'), role:'professor', name: invite.name, email, photo:'', location:'', schools:[], provider:'email', profileComplete:false};
+    DB.users.push(u);
+  }
+  SESSION.userId = u.id;
+  await saveDB();
+  go(u.profileComplete? 'dashboard':'onboarding');
+}
+
+/* ============== ONBOARDING PROFESSOR ============== */
+function renderOnboarding(){
+  const u = currentUser();
+  return `<div class="card" style="max-width:540px;margin:0 auto;">
+    <h2>🧑‍🏫 Complete seu perfil de professor</h2>
+    <label>Nome completo</label><input id="on_name" value="${u.name||''}" placeholder="Seu nome completo">
+    <label>Localização (cidade/UF)</label><input id="on_loc" value="${u.location||''}" placeholder="Picos, PI">
+    <label>Escola(s) onde leciona (separe por vírgula)</label><input id="on_schools" value="${(u.schools||[]).join(', ')}" placeholder="Escola A, Escola B">
+    <label>Imagem de perfil (cole uma URL de imagem)</label><input id="on_photo" value="${u.photo||''}" placeholder="https://...">
+    <button class="btn" onclick="saveOnboarding()">Salvar e continuar 🚀</button>
+  </div>`;
+}
+async function saveOnboarding(){
+  const u = currentUser();
+  u.name = val('on_name') || u.name || 'Professor(a)';
+  u.location = val('on_loc');
+  u.schools = val('on_schools').split(',').map(s=>s.trim()).filter(Boolean);
+  u.photo = val('on_photo');
+  u.profileComplete = true;
+  await saveDB();
+  toast('Perfil salvo!','🎉');
+  go('dashboard');
+}
+
+/* ============== DASHBOARD PROFESSOR ============== */
+function renderDashboard(){
+  const u = currentUser();
+  if(!u || u.role!=='professor') return renderLogin();
+  const classes = myClasses();
+  return `
+  <div class="flexbetween" style="margin-bottom:18px;">
+    <h2>🏠 Suas turmas</h2>
+    <button class="btn" onclick="go('turmaCreate')">➕ Criar turma</button>
+  </div>
+  ${classes.length? `<div class="grid cols-3">${classes.map(renderProfClassCard).join('')}</div>` :
+    `<div class="empty card"><div class="big">🎒</div>Você ainda não criou nenhuma turma. Crie a primeira e comece a gamificar!</div>`}
+  `;
+}
+function renderProfClassCard(c){
+  return `<div class="card" style="cursor:pointer;" onclick="go('turmaDetail',{classId:'${c.id}',tab:'atividades'})">
+    <span class="avatarimg">${c.photo?`<img src="${c.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`:'🏫'}</span>
+    <h3 style="margin:10px 0 2px;">${c.name}</h3>
+    <p class="muted" style="min-height:30px;">${c.desc||''}</p>
+    <div class="muted">🧑‍🎓 ${c.studentIds.length} alunos · 🎯 ${c.activities.length} atividades ${c.gam.enabled?'· 🕹️ Gamificada':''}</div>
+  </div>`;
+}
+
+function renderTurmaCreate(){
+  return `<div class="card" style="max-width:520px;margin:0 auto;">
+    <h2>➕ Criar turma</h2>
+    <label>Nome da turma</label><input id="tc_name" placeholder="Ex: 9º Ano B — Ciências">
+    <label>Descrição</label><textarea id="tc_desc" rows="3" placeholder="Sobre a turma..."></textarea>
+    <label>Imagem (URL)</label><input id="tc_photo" placeholder="https://...">
+    <button class="btn" onclick="createTurma()">Criar 🎉</button>
+    <button class="btn ghost" onclick="go('dashboard')">Cancelar</button>
+  </div>`;
+}
+async function createTurma(){
+  const name=val('tc_name');
+  if(!name){ toast('Informe o nome da turma','⚠️'); return; }
+  const c = classShape({professorId: currentUser().id, name, desc: val('tc_desc'), photo: val('tc_photo')});
+  DB.classes.push(c);
+  await saveDB();
+  toast('Turma criada com sucesso!','🎉');
+  go('turmaDetail',{classId:c.id, tab:'atividades'});
+}
+
+/* ============== TURMA DETAIL (professor) ============== */
+function renderTurmaDetail(){
+  const c = getClass(SESSION.classId);
+  if(!c) return renderDashboard();
+  const tabs = [
+    ['atividades','🎯 Atividades'],
+    ['alunos','🧑‍🎓 Alunos'],
+    ['grupos','👥 Grupos'],
+    ['fases','📊 Fases'],
+    ['avaliacao','📝 Avaliação'],
+    ['gamificacao','🕹️ Gamificação'],
+    ['notafinal','🏁 Nota Final']
+  ];
+  return `
+  <div class="flexbetween">
+    <h2><span class="avatarimg" style="width:38px;height:38px;font-size:18px;display:inline-flex;vertical-align:middle;">${c.photo?`<img src="${c.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`:'🏫'}</span> ${c.name}</h2>
+    <button class="btn ghost small" onclick="go('dashboard')">← Voltar</button>
+  </div>
+  <p class="muted">${c.desc||''}</p>
+  <div class="tabs">
+    ${tabs.map(([k,l])=>`<div class="tab ${SESSION.tab===k?'active':''}" onclick="go('turmaDetail',{classId:'${c.id}',tab:'${k}'})">${l}</div>`).join('')}
+  </div>
+  <div>${renderTurmaTab(c)}</div>
+  `;
+}
+function renderTurmaTab(c){
+  switch(SESSION.tab){
+    case 'atividades': return renderTabAtividades(c);
+    case 'alunos': return renderTabAlunos(c);
+    case 'grupos': return renderTabGrupos(c);
+    case 'fases': return renderTabFases(c);
+    case 'avaliacao': return renderTabAvaliacao(c);
+    case 'gamificacao': return renderTabGamificacao(c);
+    case 'notafinal': return renderTabNotaFinal(c);
+    default: return '';
+  }
+}
+
+/* ---- TAB ALUNOS ---- */
+function renderTabAlunos(c){
+  const link = location.origin + location.pathname + '?convite=' + c.id;
+  return `
+  <div class="card" style="margin-bottom:18px;">
+    <h3>🔗 Link de convite para estudantes</h3>
+    <input readonly value="${link}" onclick="this.select()">
+    <button class="btn small" onclick="navigator.clipboard.writeText('${link}');toast('Link copiado!','📋')">Copiar link</button>
+    <div style="margin-top:14px;">
+      <label>Senha de acesso (opcional — só quem souber a senha entra)</label>
+      <input id="alu_pass" value="${c.invitePassword||''}" placeholder="Deixe vazio para acesso livre">
+      <button class="btn secondary small" onclick="saveInvitePassword('${c.id}')">Salvar senha</button>
+    </div>
+  </div>
+  <h3>🧑‍🎓 Estudantes (${c.studentIds.length})</h3>
+  ${c.studentIds.length? c.studentIds.map(sid=>{
+    const s = DB.users.find(u=>u.id===sid); if(!s) return '';
+    return `<div class="studentrow">
+      <span class="avatarimg" style="width:38px;height:38px;font-size:16px;">${s.photo?`<img src="${s.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`:'🎓'}</span>
+      <strong>${s.name}</strong> <span class="muted">${s.email||''}</span>
+    </div>`;
+  }).join('') : `<div class="empty card"><div class="big">📭</div>Nenhum estudante entrou ainda. Compartilhe o link acima!</div>`}
+  `;
+}
+async function saveInvitePassword(classId){
+  const c = getClass(classId);
+  c.invitePassword = val('alu_pass');
+  await saveDB();
+  toast('Senha de convite atualizada','🔒');
+}
+
+/* ---- TAB ATIVIDADES ---- */
+const STATUS_LIST = ['Criada','Visualizada','Iniciada','Atrasada','Enviada','Enviada com atraso','Avaliada','Concluída'];
+function statusClass(s){ return s.toLowerCase().replace(/ /g,'_').replace(/[áàã]/g,'a').replace(/é/g,'e').replace(/í/g,'i').replace(/ó/g,'o').replace(/ç/g,'c'); }
+
+function renderTabAtividades(c){
+  return `
+  <div class="flexbetween"><h3>🎯 Atividades</h3><button class="btn small" onclick="openActivityModal('${c.id}')">➕ Nova atividade</button></div>
+  ${c.activities.length? `<div class="grid cols-2">${c.activities.map(a=>renderActivityCard(c,a)).join('')}</div>`
+    : `<div class="empty card"><div class="big">🗒️</div>Nenhuma atividade criada ainda.</div>`}
+  <div id="modalRoot"></div>
+  `;
+}
+function renderActivityCard(c,a){
+  refreshActivityAutoStatus(c,a);
+  return `<div class="card">
+    <div class="flexbetween">
+      <h4 style="margin:0;">${a.name}</h4>
+      <span class="pill ${statusClass(a.status)}">${a.status}</span>
+    </div>
+    <p class="muted">${a.desc||''}</p>
+    <div class="muted">🏷️ ${a.type==='grupo'?'Atividade em grupo':'Atividade individual'} · 💯 ${a.points} pts · ${a.allowLate?'Aceita atraso (nota menor)':'Não aceita atraso'}</div>
+    <div class="muted">🟢 Início: ${fmtDate(a.start)} &nbsp; 🔴 Fim: ${fmtDate(a.end)}</div>
+    <div class="muted">📨 Envios: ${a.submissions.length}</div>
+    <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="btn ghost small" onclick="openActivityModal('${c.id}','${a.id}')">✏️ Editar</button>
+      <button class="btn ghost small" onclick="toggleHistory('${a.id}')">🕒 Histórico</button>
+    </div>
+    <div id="hist_${a.id}" style="display:none;margin-top:10px;">
+      ${a.history.map(h=>`<div class="muted">• ${h.status} — ${fmtDate(h.date)}</div>`).join('')}
+    </div>
+  </div>`;
+}
+function toggleHistory(id){
+  const el = document.getElementById('hist_'+id);
+  el.style.display = el.style.display==='none' ? 'block' : 'none';
+}
+function refreshActivityAutoStatus(c,a){
+  const now = new Date();
+  const start = new Date(a.start), end = new Date(a.end);
+  let changed=false;
+  if(['Criada','Visualizada'].includes(a.status) && now>=start && now<end){ a.status='Iniciada'; changed=true; }
+  if(['Criada','Visualizada','Iniciada'].includes(a.status) && now>=end){ a.status='Atrasada'; changed=true; }
+  if(changed){ a.history.push({status:a.status,date:nowISO()}); notifyClassStudents(c, `A atividade "${a.name}" agora está: ${a.status}`); }
+}
+function notifyClassStudents(c, text){
+  c.studentIds.forEach(sid=> notify(sid, text, c.id));
+}
+
+function openActivityModal(classId, activityId){
+  const c = getClass(classId);
+  const a = activityId? c.activities.find(x=>x.id===activityId) : null;
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `<div class="modal-bg" onclick="if(event.target===this) closeModal()">
+    <div class="card modal">
+      <span class="closebtn" onclick="closeModal()">✖</span>
+      <h3>${a?'✏️ Editar atividade':'➕ Nova atividade'}</h3>
+      <label>Nome da atividade</label><input id="at_name" value="${a?a.name:''}">
+      <label>Descrição</label><textarea id="at_desc" rows="3">${a?a.desc:''}</textarea>
+      <label>Pontuação máxima</label><input id="at_points" type="number" step="0.1" value="${a?a.points:10}">
+      <div class="checkbox-row"><input type="checkbox" id="at_late" ${a&&a.allowLate?'checked':''}> <label style="margin:0;">Aceita envio fora do prazo (com pontuação menor)</label></div>
+      <label>Tipo</label>
+      <select id="at_type">
+        <option value="individual" ${a&&a.type==='individual'?'selected':''}>Individual</option>
+        <option value="grupo" ${a&&a.type==='grupo'?'selected':''}>Em grupo</option>
+      </select>
+      <label>Modo de envio do grupo</label>
+      <select id="at_groupmode">
+        <option value="qualquer" ${a&&a.groupSubmitMode==='qualquer'?'selected':''}>Qualquer membro pode enviar</option>
+        <option value="todos" ${a&&a.groupSubmitMode==='todos'?'selected':''}>Todos devem enviar</option>
+      </select>
+      <label>Início</label><input id="at_start" type="datetime-local" value="${a? toLocalInput(a.start): ''}">
+      <label>Fim</label><input id="at_end" type="datetime-local" value="${a? toLocalInput(a.end): ''}">
+      ${a? `<label>Situação atual</label>
+      <select id="at_status">${STATUS_LIST.map(s=>`<option ${a.status===s?'selected':''}>${s}</option>`).join('')}</select>` : ''}
+      <button class="btn" onclick="saveActivity('${classId}','${activityId||''}')">${a?'Salvar alterações':'Criar atividade'} 🎯</button>
+      ${a? `<button class="btn danger small" onclick="deleteActivity('${classId}','${activityId}')">Excluir</button>`:''}
+    </div>
+  </div>`;
+}
+function toLocalInput(iso){ if(!iso) return ''; const d=new Date(iso); const pad=n=>String(n).padStart(2,'0'); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`; }
+function closeModal(){ document.getElementById('modalRoot').innerHTML=''; }
+
+async function saveActivity(classId, activityId){
+  const c = getClass(classId);
+  const name = val('at_name'); if(!name){ toast('Informe o nome','⚠️'); return; }
+  const data = {
+    name, desc: val('at_desc'), points: parseFloat(val('at_points'))||10,
+    allowLate: document.getElementById('at_late').checked,
+    type: document.getElementById('at_type').value,
+    groupSubmitMode: document.getElementById('at_groupmode').value,
+    start: new Date(val('at_start')).toISOString(),
+    end: new Date(val('at_end')).toISOString(),
+  };
+  if(activityId){
+    const a = c.activities.find(x=>x.id===activityId);
+    Object.assign(a, data);
+    const newStatus = val('at_status');
+    if(newStatus && newStatus!==a.status){ a.status=newStatus; a.history.push({status:newStatus,date:nowISO()}); }
+    notifyClassStudents(c, `A atividade "${a.name}" foi atualizada (${a.status}).`);
+    toast('Atividade atualizada!','✏️');
+  } else {
+    const a = activityShape({classId, ...data});
+    c.activities.push(a);
+    notifyClassStudents(c, `Nova atividade criada: "${a.name}"`);
+    toast('Atividade criada!','🎯');
+  }
+  closeModal();
+  await persistAndRoute();
+}
+async function deleteActivity(classId, activityId){
+  const c = getClass(classId);
+  c.activities = c.activities.filter(a=>a.id!==activityId);
+  closeModal();
+  await persistAndRoute();
+}
+
+/* ---- TAB GRUPOS ---- */
+function renderTabGrupos(c){
+  return `
+  <div class="flexbetween"><h3>👥 Grupos</h3><button class="btn small" onclick="openGroupModal('${c.id}')">➕ Novo grupo</button></div>
+  ${c.groups.length? `<div class="grid cols-2">${c.groups.map(g=>`
+    <div class="card">
+      <h4>${g.name}</h4>
+      <div class="muted">${g.studentIds.length} membro(s)</div>
+      <ul>${g.studentIds.map(sid=>{const s=DB.users.find(u=>u.id===sid); return s?`<li>${s.name}</li>`:'';}).join('')}</ul>
+      <button class="btn ghost small" onclick="openGroupModal('${c.id}','${g.id}')">✏️ Editar</button>
+    </div>`).join('')}</div>` : `<div class="empty card"><div class="big">👥</div>Nenhum grupo criado ainda.</div>`}
+  <div id="modalRoot"></div>
+  `;
+}
+function openGroupModal(classId, groupId){
+  const c = getClass(classId);
+  const g = groupId? c.groups.find(x=>x.id===groupId): null;
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `<div class="modal-bg" onclick="if(event.target===this) closeModal()"><div class="card modal">
+    <span class="closebtn" onclick="closeModal()">✖</span>
+    <h3>${g?'Editar grupo':'Novo grupo'}</h3>
+    <label>Nome do grupo</label><input id="gr_name" value="${g?g.name:''}">
+    <label>Membros</label>
+    ${c.studentIds.map(sid=>{
+      const s = DB.users.find(u=>u.id===sid); if(!s) return '';
+      const checked = g && g.studentIds.includes(sid) ? 'checked' : '';
+      return `<div class="checkbox-row"><input type="checkbox" class="gr_member" value="${sid}" ${checked}><label style="margin:0;">${s.name}</label></div>`;
+    }).join('') || '<div class="muted">Nenhum aluno na turma ainda.</div>'}
+    <button class="btn" onclick="saveGroup('${classId}','${groupId||''}')">Salvar</button>
+    ${g?`<button class="btn danger small" onclick="deleteGroup('${classId}','${groupId}')">Excluir</button>`:''}
+  </div></div>`;
+}
+async function saveGroup(classId, groupId){
+  const c = getClass(classId);
+  const name = val('gr_name'); if(!name){ toast('Informe o nome do grupo','⚠️'); return; }
+  const members = Array.from(document.querySelectorAll('.gr_member:checked')).map(el=>el.value);
+  if(groupId){
+    const g = c.groups.find(x=>x.id===groupId);
+    g.name=name; g.studentIds=members;
+  } else {
+    c.groups.push({id:uid('grp'), name, studentIds:members});
+  }
+  closeModal();
+  toast('Grupo salvo!','👥');
+  await persistAndRoute();
+}
+async function deleteGroup(classId, groupId){
+  const c = getClass(classId);
+  c.groups = c.groups.filter(g=>g.id!==groupId);
+  closeModal();
+  await persistAndRoute();
+}
+
+/* ---- TAB AVALIAÇÃO ---- */
+function renderTabAvaliacao(c){
+  const opts = c.activities.map(a=>`<option value="${a.id}" ${SESSION._avalAtividade===a.id?'selected':''}>${a.name}</option>`).join('');
+  const a = c.activities.find(x=>x.id===SESSION._avalAtividade) || c.activities[0];
+  SESSION._avalAtividade = a? a.id : null;
+  let body = '';
+  if(a){
+    body = `<h4>${a.name} <span class="pill ${statusClass(a.status)}">${a.status}</span></h4>
+    <table><tr><th>${a.type==='grupo'?'Grupo':'Aluno'}</th><th>Enviado em</th><th>Atraso?</th><th>Nota</th><th>Pode reenviar?</th><th>Conteúdo</th></tr>
+    ${renderSubmissionRows(c,a)}
+    </table>`;
+  } else {
+    body = `<div class="empty"><div class="big">🗒️</div>Crie uma atividade primeiro.</div>`;
+  }
+  return `
+  <h3>📝 Avaliação de atividades</h3>
+  <label>Selecione a atividade</label>
+  <select onchange="SESSION._avalAtividade=this.value; route();">${opts}</select>
+  <div class="card" style="margin-top:14px;">${body}</div>
+  `;
+}
+function renderSubmissionRows(c,a){
+  if(a.type==='grupo'){
+    if(!a.submissions.length) return `<tr><td colspan="6" class="muted">Nenhum envio ainda.</td></tr>`;
+    return a.submissions.map(s=>{
+      const g = c.groups.find(gr=>gr.id===s.groupId);
+      return `<tr>
+        <td>${g?g.name:'—'}</td><td>${fmtDate(s.date)}</td><td>${s.late?'⚠️ Sim':'Não'}</td>
+        <td><input type="number" step="0.1" style="width:70px;margin:0;" value="${s.grade??''}" onchange="setGrade('${c.id}','${a.id}','${s.id}',this.value)"></td>
+        <td><input type="checkbox" ${s.canResubmit?'checked':''} onchange="setResubmit('${c.id}','${a.id}','${s.id}',this.checked)"></td>
+        <td class="muted" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;">${s.content}</td>
+      </tr>`;
+    }).join('');
+  }
+  if(!c.studentIds.length) return `<tr><td colspan="6" class="muted">Nenhum aluno na turma.</td></tr>`;
+  return c.studentIds.map(sid=>{
+    const s = DB.users.find(u=>u.id===sid);
+    const sub = a.submissions.filter(x=>x.studentId===sid).slice(-1)[0];
+    if(!sub) return `<tr><td>${s?s.name:'—'}</td><td colspan="5" class="muted">Sem envio</td></tr>`;
+    return `<tr>
+      <td>${s?s.name:'—'}</td><td>${fmtDate(sub.date)}</td><td>${sub.late?'⚠️ Sim':'Não'}</td>
+      <td><input type="number" step="0.1" style="width:70px;margin:0;" value="${sub.grade??''}" onchange="setGrade('${c.id}','${a.id}','${sub.id}',this.value)"></td>
+      <td><input type="checkbox" ${sub.canResubmit?'checked':''} onchange="setResubmit('${c.id}','${a.id}','${sub.id}',this.checked)"></td>
+      <td class="muted" style="max-width:220px;overflow:hidden;text-overflow:ellipsis;">${sub.content}</td>
+    </tr>`;
+  }).join('');
+}
+async function setGrade(classId, activityId, subId, value){
+  const c = getClass(classId); const a = c.activities.find(x=>x.id===activityId);
+  const s = a.submissions.find(x=>x.id===subId);
+  s.grade = Math.round(parseFloat(value)*10)/10;
+  s.gradedAt = nowISO();
+  if(a.status!=='Concluída'){ a.status='Avaliada'; a.history.push({status:'Avaliada',date:nowISO()}); }
+  // notificações + gamificação (moedas / atributos por nota máxima)
+  const recipients = a.type==='grupo' ? (c.groups.find(g=>g.id===s.groupId)?.studentIds||[]) : [s.studentId];
+  recipients.forEach(sid=>{
+    notify(sid, `Sua atividade "${a.name}" foi avaliada: nota ${s.grade}`, c.id);
+    applyGamificationOnGrade(c, sid, s.grade, a.points);
+  });
+  await saveDB();
+  toast('Nota lançada!','📝');
+}
+function applyGamificationOnGrade(c, studentId, grade, maxPoints){
+  if(!c.gam.enabled) return;
+  c.gam.studentCoins[studentId] = (c.gam.studentCoins[studentId]||0) + (c.gam.coinPerActivity||0);
+  if(grade >= maxPoints){
+    c.gam.studentPA[studentId] = (c.gam.studentPA[studentId]||0) + (c.gam.paPerMaxGrade||0);
+  }
+}
+async function setResubmit(classId, activityId, subId, checked){
+  const c = getClass(classId); const a = c.activities.find(x=>x.id===activityId);
+  const s = a.submissions.find(x=>x.id===subId);
+  s.canResubmit = checked;
+  await saveDB();
+}
+
+/* ---- TAB FASES (notas) ---- */
+function renderTabFases(c){
+  return `
+  <div class="flexbetween"><h3>📊 Fases (agrupamentos de notas)</h3><button class="btn small" onclick="openPhaseModal('${c.id}')">➕ Nova fase</button></div>
+  ${c.phases.length? c.phases.map(p=>renderPhaseCard(c,p)).join('') : `<div class="empty card"><div class="big">📊</div>Nenhuma fase criada ainda.</div>`}
+  <div id="modalRoot"></div>
+  `;
+}
+function renderPhaseCard(c,p){
+  const acts = c.activities.filter(a=>p.activityIds.includes(a.id));
+  const maxTotal = acts.reduce((s,a)=>s+a.points,0);
+  return `<div class="card" style="margin-bottom:14px;">
+    <div class="flexbetween"><h4>${p.name}</h4><button class="btn ghost small" onclick="openPhaseModal('${c.id}','${p.id}')">✏️</button></div>
+    <div class="muted">${acts.length} atividade(s) · pontuação máxima total: ${maxTotal}</div>
+    <table><tr><th>Aluno</th><th>Soma obtida</th><th>Média da fase (0–10)</th></tr>
+    ${c.studentIds.map(sid=>{
+      const s = DB.users.find(u=>u.id===sid);
+      let sum=0;
+      acts.forEach(a=>{ const sub=a.submissions.filter(x=>x.studentId===sid).slice(-1)[0]; if(sub&&sub.grade!=null) sum+=sub.grade; });
+      const media = maxTotal? Math.round((sum/maxTotal*10)*100)/100 : 0;
+      return `<tr><td>${s?s.name:'—'}</td><td>${sum}</td><td><strong>${media}</strong></td></tr>`;
+    }).join('')}
+    </table>
+  </div>`;
+}
+function openPhaseModal(classId, phaseId){
+  const c = getClass(classId);
+  const p = phaseId? c.phases.find(x=>x.id===phaseId): null;
+  const root = document.getElementById('modalRoot');
+  root.innerHTML = `<div class="modal-bg" onclick="if(event.target===this) closeModal()"><div class="card modal">
+    <span class="closebtn" onclick="closeModal()">✖</span>
+    <h3>${p?'Editar fase':'Nova fase'}</h3>
+    <label>Nome da fase</label><input id="ph_name" value="${p?p.name:''}" placeholder="Ex: Bimestre 1 / Fase do Reino Dourado">
+    <label>Atividades incluídas</label>
+    ${c.activities.map(a=>{
+      const checked = p && p.activityIds.includes(a.id) ? 'checked':'';
+      return `<div class="checkbox-row"><input type="checkbox" class="ph_act" value="${a.id}" ${checked}><label style="margin:0;">${a.name} (${a.points} pts)</label></div>`;
+    }).join('') || '<div class="muted">Nenhuma atividade criada ainda.</div>'}
+    <button class="btn" onclick="savePhase('${classId}','${phaseId||''}')">Salvar</button>
+    ${p?`<button class="btn danger small" onclick="deletePhase('${classId}','${phaseId}')">Excluir</button>`:''}
+  </div></div>`;
+}
+async function savePhase(classId, phaseId){
+  const c = getClass(classId);
+  const name = val('ph_name'); if(!name){toast('Informe o nome','⚠️');return;}
+  const acts = Array.from(document.querySelectorAll('.ph_act:checked')).map(el=>el.value);
+  if(phaseId){ const p=c.phases.find(x=>x.id===phaseId); p.name=name; p.activityIds=acts; }
+  else { c.phases.push({id:uid('fase'), name, activityIds:acts}); }
+  closeModal(); toast('Fase salva!','📊'); await persistAndRoute();
+}
+async function deletePhase(classId, phaseId){
+  const c = getClass(classId); c.phases = c.phases.filter(p=>p.id!==phaseId);
+  closeModal(); await persistAndRoute();
+}
+
+/* ---- TAB NOTA FINAL ---- */
+function renderTabNotaFinal(c){
+  return `<h3>🏁 Nota final</h3>
+  <table><tr><th>Aluno</th><th>Média das fases</th><th>Média de todas atividades</th></tr>
+  ${c.studentIds.map(sid=>{
+    const s = DB.users.find(u=>u.id===sid);
+    let mediasFases = c.phases.map(p=>{
+      const acts = c.activities.filter(a=>p.activityIds.includes(a.id));
+      const maxTotal = acts.reduce((sm,a)=>sm+a.points,0);
+      let sum=0; acts.forEach(a=>{const sub=a.submissions.filter(x=>x.studentId===sid).slice(-1)[0]; if(sub&&sub.grade!=null) sum+=sub.grade;});
+      return maxTotal? sum/maxTotal*10 : 0;
+    });
+    const mediaFasesFinal = mediasFases.length? Math.round((mediasFases.reduce((a,b)=>a+b,0)/mediasFases.length)*100)/100 : '—';
+    const maxAll = c.activities.reduce((sm,a)=>sm+a.points,0);
+    let sumAll=0; c.activities.forEach(a=>{const sub=a.submissions.filter(x=>x.studentId===sid).slice(-1)[0]; if(sub&&sub.grade!=null) sumAll+=sub.grade;});
+    const mediaAtividades = maxAll? Math.round((sumAll/maxAll*10)*100)/100 : '—';
+    return `<tr><td>${s?s.name:'—'}</td><td><strong>${mediaFasesFinal}</strong></td><td>${mediaAtividades}</td></tr>`;
+  }).join('')}
+  </table>`;
+}
+
+/* ---- TAB GAMIFICAÇÃO ---- */
+function renderTabGamificacao(c){
+  const sub = [
+    ['avatares','🦸 Avatares'],['atributos','💪 Atributos'],['fases_gam','🗺️ Fases'],
+    ['itens','🎁 Itens'],['moedas','🪙 Moedas'],['medalhas','🏅 Medalhas']
+  ];
+  return `
+  <div class="flexbetween">
+    <h3>🕹️ Gamificar a turma</h3>
+    <label style="display:flex;align-items:center;gap:8px;font-family:'Baloo 2';font-weight:700;">
+      <input type="checkbox" style="width:auto;" ${c.gam.enabled?'checked':''} onchange="toggleGam('${c.id}',this.checked)"> Ativar gamificação
+    </label>
+  </div>
+  ${!c.gam.enabled? `<div class="empty card"><div class="big">🎮</div>Ative a gamificação para liberar avatares, atributos, fases, itens, moedas e medalhas.</div>` : `
+  <div class="tabs">${sub.map(([k,l])=>`<div class="tab ${SESSION.gamTab===k?'active':''}" onclick="SESSION.gamTab='${k}';route();">${l}</div>`).join('')}</div>
+  <div>${renderGamSubTab(c)}</div>
+  `}
+  <div id="modalRoot"></div>
+  `;
+}
+async function toggleGam(classId, checked){
+  const c = getClass(classId); c.gam.enabled = checked; await persistAndRoute();
+}
+function renderGamSubTab(c){
+  switch(SESSION.gamTab){
+    case 'avatares': return renderGamAvatares(c);
+    case 'atributos': return renderGamAtributos(c);
+    case 'fases_gam': return renderGamFases(c);
+    case 'itens': return renderGamItens(c);
+    case 'moedas': return renderGamMoedas(c);
+    case 'medalhas': return renderGamMedalhas(c);
+    default: return '';
+  }
+}
+function renderGamAvatares(c){
+  return `<div class="card">
+    <h4>🦸 Avatares disponíveis</h4>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
+      ${c.gam.avatars.map((em,i)=>`<span class="medal" style="font-size:28px;cursor:pointer;" title="remover" onclick="removeAvatar('${c.id}',${i})">${em}</span>`).join('')}
+    </div>
+    <input id="new_avatar" placeholder="Cole um emoji, ex: 🐯" style="max-width:160px;display:inline-block;">
+    <button class="btn small" onclick="addAvatar('${c.id}')">Adicionar avatar</button>
+  </div>
+  <h4 style="margin-top:18px;">Avatar escolhido por aluno</h4>
+  <table><tr><th>Aluno</th><th>Avatar</th></tr>
+  ${c.studentIds.map(sid=>{const s=DB.users.find(u=>u.id===sid); return `<tr><td>${s?s.name:'—'}</td><td style="font-size:24px;">${c.gam.studentAvatar[sid]||'—'}</td></tr>`;}).join('')}
+  </table>`;
+}
+async function addAvatar(classId){
+  const c=getClass(classId); const v=val('new_avatar'); if(!v){return;} c.gam.avatars.push(v); await persistAndRoute();
+}
+async function removeAvatar(classId,i){ const c=getClass(classId); c.gam.avatars.splice(i,1); await persistAndRoute(); }
+
+function renderGamAtributos(c){
+  return `<div class="card">
+    <h4>💪 Atributos</h4>
+    <div class="muted" style="margin-bottom:10px;">Pontos de Atributo (PA) ganhos por atividade com nota máxima:
+      <input style="width:80px;display:inline-block;margin:0 8px;" type="number" value="${c.gam.paPerMaxGrade}" onchange="setPAPerMax('${c.id}',this.value)"></div>
+    ${c.gam.attributes.map(a=>`<div class="checkbox-row"><strong>${a.name}</strong> <button class="btn danger small" onclick="removeAttr('${c.id}','${a.id}')">remover</button></div>`).join('')}
+    <input id="new_attr" placeholder="Nome do novo atributo, ex: Coragem">
+    <button class="btn small" onclick="addAttr('${c.id}')">Adicionar atributo</button>
+  </div>
+  <h4 style="margin-top:18px;">Distribuição de PA por aluno</h4>
+  <table><tr><th>Aluno</th><th>PA disponíveis</th>${c.gam.attributes.map(a=>`<th>${a.name}</th>`).join('')}</tr>
+  ${c.studentIds.map(sid=>{
+    const s=DB.users.find(u=>u.id===sid);
+    const pa = c.gam.studentPA[sid]||0;
+    return `<tr><td>${s?s.name:'—'}</td><td>${pa}</td>${c.gam.attributes.map(a=>`<td>${(c.gam.studentAttrPoints[sid]||{})[a.id]||0}</td>`).join('')}</tr>`;
+  }).join('')}
+  </table>`;
+}
+async function setPAPerMax(classId,v){ const c=getClass(classId); c.gam.paPerMaxGrade=parseInt(v)||0; await saveDB(); }
+async function addAttr(classId){ const c=getClass(classId); const n=val('new_attr'); if(!n)return; c.gam.attributes.push({id:uid('attr'),name:n,base:0}); await persistAndRoute(); }
+async function removeAttr(classId,id){ const c=getClass(classId); c.gam.attributes=c.gam.attributes.filter(a=>a.id!==id); await persistAndRoute(); }
+
+function renderGamFases(c){
+  return `<div class="card">
+    <h4>🗺️ Fases da jornada (gamificação)</h4>
+    <div class="muted" style="margin-bottom:10px;">Fase atual: <strong>${(c.gam.gamPhases.find(p=>p.id===c.gam.currentGamPhase)||{}).name || 'Nenhuma'}</strong></div>
+    ${c.gam.gamPhases.map(p=>`<div class="checkbox-row">
+      <button class="btn ${c.gam.currentGamPhase===p.id?'teal':'ghost'} small" onclick="setCurrentGamPhase('${c.id}','${p.id}')">${c.gam.currentGamPhase===p.id?'★ Atual':'Tornar atual'}</button>
+      ${p.name} <button class="btn danger small" onclick="removeGamPhase('${c.id}','${p.id}')">remover</button>
+    </div>`).join('')}
+    <input id="new_gamphase" placeholder="Nome da fase, ex: Reino dos Números">
+    <button class="btn small" onclick="addGamPhase('${c.id}')">Adicionar fase</button>
+  </div>`;
+}
+async function addGamPhase(classId){ const c=getClass(classId); const n=val('new_gamphase'); if(!n)return; c.gam.gamPhases.push({id:uid('gfase'),name:n}); await persistAndRoute(); }
+async function removeGamPhase(classId,id){ const c=getClass(classId); c.gam.gamPhases=c.gam.gamPhases.filter(p=>p.id!==id); if(c.gam.currentGamPhase===id)c.gam.currentGamPhase=null; await persistAndRoute(); }
+async function setCurrentGamPhase(classId,id){ const c=getClass(classId); c.gam.currentGamPhase=id; await persistAndRoute(); }
+
+function renderGamItens(c){
+  return `<div class="card">
+    <h4>🎁 Itens</h4>
+    <div class="grid cols-3">${c.gam.items.map(it=>`<div class="card" style="text-align:center;">
+      <div style="font-size:34px;">${it.img}</div><strong>${it.name}</strong>
+      <div class="coinchip">🪙 ${it.value}</div><br>
+      <button class="btn danger small" style="margin-top:8px;" onclick="removeItem('${c.id}','${it.id}')">remover</button>
+    </div>`).join('')}</div>
+    <h4 style="margin-top:14px;">Novo item</h4>
+    <label>Emoji/imagem</label><input id="it_img" placeholder="🛡️">
+    <label>Nome</label><input id="it_name" placeholder="Escudo da Sabedoria">
+    <label>Valor em moedas</label><input id="it_value" type="number" value="10">
+    <button class="btn small" onclick="addItem('${c.id}')">Adicionar item</button>
+  </div>`;
+}
+async function addItem(classId){
+  const c=getClass(classId); const name=val('it_name'); if(!name)return;
+  c.gam.items.push({id:uid('item'), name, img: val('it_img')||'🎁', value: parseFloat(val('it_value'))||0});
+  await persistAndRoute();
+}
+async function removeItem(classId,id){ const c=getClass(classId); c.gam.items=c.gam.items.filter(i=>i.id!==id); await persistAndRoute(); }
+
+function renderGamMoedas(c){
+  return `<div class="card">
+    <h4>🪙 Moedas</h4>
+    <label>Nome da moeda</label><input id="coin_name" value="${c.gam.coinName}">
+    <label>Moedas ganhas por atividade realizada</label><input id="coin_per" type="number" value="${c.gam.coinPerActivity}">
+    <button class="btn small" onclick="saveCoinConfig('${c.id}')">Salvar</button>
+  </div>
+  <h4 style="margin-top:14px;">Saldo de moedas por aluno</h4>
+  <table><tr><th>Aluno</th><th>${c.gam.coinName}</th></tr>
+  ${c.studentIds.map(sid=>{const s=DB.users.find(u=>u.id===sid); return `<tr><td>${s?s.name:'—'}</td><td>🪙 ${c.gam.studentCoins[sid]||0}</td></tr>`;}).join('')}
+  </table>`;
+}
+async function saveCoinConfig(classId){
+  const c=getClass(classId); c.gam.coinName=val('coin_name')||'Moedas'; c.gam.coinPerActivity=parseFloat(val('coin_per'))||0;
+  await persistAndRoute();
+}
+
+function renderGamMedalhas(c){
+  return `<div class="card">
+    <h4>🏅 Medalhas</h4>
+    <div class="grid cols-3">${c.gam.medals.map(m=>`<div class="card" style="text-align:center;">
+      <div class="medal" style="margin:0 auto;">${m.icon}</div><strong>${m.name}</strong><div class="muted">${m.criteria}</div>
+      <button class="btn danger small" style="margin-top:8px;" onclick="removeMedal('${c.id}','${m.id}')">remover</button>
+    </div>`).join('')}</div>
+    <h4 style="margin-top:14px;">Nova medalha</h4>
+    <label>Ícone</label><input id="md_icon" placeholder="🏅">
+    <label>Nome</label><input id="md_name" placeholder="Mestre da Pontualidade">
+    <label>Critério (texto livre)</label><input id="md_crit" placeholder="Entregar 5 atividades no prazo">
+    <button class="btn small" onclick="addMedal('${c.id}')">Adicionar medalha</button>
+  </div>
+  <h4 style="margin-top:14px;">Medalhas conquistadas</h4>
+  ${c.studentIds.map(sid=>{
+    const s=DB.users.find(u=>u.id===sid); const ms=(c.gam.studentMedals[sid]||[]).map(id=>c.gam.medals.find(m=>m.id===id)).filter(Boolean);
+    return `<div class="card" style="margin-bottom:8px;"><strong>${s?s.name:'—'}</strong>: ${ms.length? ms.map(m=>m.icon+' '+m.name).join(', '):'<span class="muted">nenhuma ainda</span>'}
+    <select onchange="if(this.value)grantMedal('${c.id}','${sid}',this.value);this.value='';" style="width:auto;display:inline-block;margin-left:10px;">
+      <option value="">+ conceder medalha</option>
+      ${c.gam.medals.map(m=>`<option value="${m.id}">${m.icon} ${m.name}</option>`).join('')}
+    </select>
+    </div>`;
+  }).join('')}
+  `;
+}
+async function addMedal(classId){
+  const c=getClass(classId); const name=val('md_name'); if(!name)return;
+  c.gam.medals.push({id:uid('medal'), name, icon:val('md_icon')||'🏅', criteria: val('md_crit')});
+  await persistAndRoute();
+}
+async function removeMedal(classId,id){ const c=getClass(classId); c.gam.medals=c.gam.medals.filter(m=>m.id!==id); await persistAndRoute(); }
+async function grantMedal(classId, sid, medalId){
+  const c=getClass(classId);
+  c.gam.studentMedals[sid] = c.gam.studentMedals[sid]||[];
+  if(!c.gam.studentMedals[sid].includes(medalId)) c.gam.studentMedals[sid].push(medalId);
+  const m = c.gam.medals.find(x=>x.id===medalId);
+  notify(sid, `Você conquistou a medalha "${m.name}"! ${m.icon}`, c.id);
+  await persistAndRoute();
+  toast('Medalha concedida!','🏅');
+}
+
+/* ============== ENTRADA DE ESTUDANTE (link de convite) ============== */
+function renderStudentJoin(){
+  const c = getClass(SESSION.classId);
+  if(!c) return `<div class="card">Turma não encontrada.</div>`;
+  const prof = DB.users.find(u=>u.id===c.professorId);
+  const u = currentUser();
+  if(u && u.role==='aluno' && c.studentIds.includes(u.id)){
+    return `<div class="card" style="max-width:480px;margin:0 auto;text-align:center;">
+      <div style="font-size:40px;">🎉</div><h3>Você já faz parte desta turma!</h3>
+      <button class="btn" onclick="go('studentArea')">Ir para minhas atividades</button>
+    </div>`;
+  }
+  return `<div class="card" style="max-width:480px;margin:0 auto;">
+    <div style="text-align:center;font-size:40px;">🎮</div>
+    <h2 style="text-align:center;">Você foi convidado!</h2>
+    <p class="muted" style="text-align:center;">O professor <strong>${prof?prof.name:'—'}</strong> cadastrou a turma <strong>${c.name}</strong>
+    ${prof&&prof.schools&&prof.schools.length?` na escola ${prof.schools[0]}`:''} e te convidou para a plataforma gamificada GAMAtividades!</p>
+    ${c.invitePassword? `<label>Senha de acesso (fornecida pelo professor)</label><input id="sj_pass" type="password">` : ''}
+    <label>Nome</label><input id="sj_first" placeholder="Seu nome">
+    <label>Sobrenome</label><input id="sj_last" placeholder="Seu sobrenome">
+    <label>Imagem de perfil (URL, opcional)</label><input id="sj_photo" placeholder="https://...">
+    <button class="btn" onclick="joinClass('${c.id}')">Entrar na turma 🚀</button>
+  </div>`;
+}
+async function joinClass(classId){
+  const c = getClass(classId);
+  if(c.invitePassword){
+    const pass = val('sj_pass');
+    if(pass !== c.invitePassword){ toast('Senha incorreta','❌'); return; }
+  }
+  const first = val('sj_first'), last = val('sj_last');
+  if(!first||!last){ toast('Informe nome e sobrenome','⚠️'); return; }
+  const u = {id:uid('user'), role:'aluno', name:first+' '+last, photo: val('sj_photo'), email:'', schools:[], profileComplete:true};
+  DB.users.push(u);
+  c.studentIds.push(u.id);
+  SESSION.userId = u.id;
+  notify(u.id, `Bem-vindo(a) à turma ${c.name}!`, c.id);
+  await saveDB();
+  toast('Você entrou na turma! Bora jogar 🎮','🎉');
+  go('studentArea');
+}
+
+/* ============== ÁREA DO ESTUDANTE ============== */
+function renderStudentArea(){
+  const u = currentUser();
+  if(!u || u.role!=='aluno') return renderLogin();
+  const classes = studentClasses();
+  return `<h2>🎮 Minhas turmas e missões</h2>
+  ${classes.length? classes.map(c=>renderStudentClassBlock(c,u)).join('') : `<div class="empty card"><div class="big">🎒</div>Você ainda não está em nenhuma turma.</div>`}
+  <div id="modalRoot"></div>`;
+}
+function renderStudentClassBlock(c,u){
+  c.activities.forEach(a=>refreshActivityAutoStatus(c,a));
+  const myGroup = c.groups.find(g=>g.studentIds.includes(u.id));
+  const visiveis = c.activities.filter(a=>a.status!=='Criada');
+  return `<div class="card" style="margin-bottom:20px;">
+    <div class="flexbetween">
+      <h3>${c.name}</h3>
+      ${c.gam.enabled? `<div style="display:flex;gap:10px;align-items:center;">
+        <span class="coinchip">🪙 ${c.gam.studentCoins[u.id]||0} ${c.gam.coinName}</span>
+        <span style="font-size:26px;">${c.gam.studentAvatar[u.id]||'❓'}</span>
+      </div>`:''}
+    </div>
+    ${visiveis.length? visiveis.map(a=>renderStudentActivity(c,a,u,myGroup)).join('') : `<div class="muted">Nenhuma missão disponível ainda.</div>`}
+    ${c.gam.enabled? renderStudentGamPanel(c,u) : ''}
+  </div>`;
+}
+function renderStudentActivity(c,a,u,myGroup){
+  if(a.status==='Visualizada' && false){} // marcação ocorre no clique "ver detalhes"
+  const mySub = a.type==='grupo'
+    ? a.submissions.filter(s=>myGroup && s.groupId===myGroup.id).slice(-1)[0]
+    : a.submissions.filter(s=>s.studentId===u.id).slice(-1)[0];
+  const now = new Date(); const canSend = (now < new Date(a.end)) || (a.allowLate && now>=new Date(a.end));
+  const alreadySent = mySub && !mySub.canResubmit;
+  return `<div class="card" style="margin:10px 0;background:#1c1042;">
+    <div class="flexbetween"><strong>${a.name}</strong><span class="pill ${statusClass(a.status)}">${a.status}</span></div>
+    <p class="muted">${a.desc}</p>
+    <div class="muted">💯 vale ${a.points} pts · 🟢 ${fmtDate(a.start)} → 🔴 ${fmtDate(a.end)} ${a.type==='grupo'?'· 👥 em grupo':''}</div>
+    ${mySub? `<div class="muted">Seu envio: ${fmtDate(mySub.date)} ${mySub.late?'(atrasado)':''} ${mySub.grade!=null?`· nota: <strong>${mySub.grade}</strong>`:'· aguardando avaliação'}</div>`:''}
+    ${(!alreadySent && canSend) ? `
+      <textarea id="resp_${a.id}" rows="2" placeholder="Digite sua resposta..."></textarea>
+      <button class="btn small" onclick="submitActivity('${c.id}','${a.id}')">Enviar resposta 📨</button>
+    ` : (!canSend && !mySub ? `<div class="muted">⏰ Prazo encerrado e esta atividade não aceita envios fora do prazo.</div>` : '')}
+  </div>`;
+}
+async function submitActivity(classId, activityId){
+  const c = getClass(classId), a = c.activities.find(x=>x.id===activityId);
+  const u = currentUser();
+  const content = document.getElementById('resp_'+activityId).value.trim();
+  if(!content){ toast('Escreva sua resposta antes de enviar','⚠️'); return; }
+  const now = new Date(); const end = new Date(a.end);
+  const late = now > end;
+  if(late && !a.allowLate){ toast('Esta atividade não aceita envios fora do prazo.','🚫'); return; }
+  const myGroup = c.groups.find(g=>g.studentIds.includes(u.id));
+  const baseGrade = late? 0.5 : 1;
+  const sub = {id:uid('sub'), studentId: a.type==='grupo'? null : u.id, groupId: a.type==='grupo'? (myGroup?myGroup.id:null): null,
+    isGroup: a.type==='grupo', content, date: nowISO(), late, grade: baseGrade, canResubmit:false, gradedAt:null};
+  a.submissions.push(sub);
+  a.status = late? 'Enviada com atraso' : 'Enviada';
+  a.history.push({status:a.status, date:nowISO()});
+  const prof = DB.users.find(x=>x.id===c.professorId);
+  if(prof) notify(prof.id, `${u.name} enviou a atividade "${a.name}"`, c.id);
+  await saveDB();
+  toast('Resposta enviada com sucesso!','📨');
+  route();
+}
+function renderStudentGamPanel(c,u){
+  const att = c.gam.studentAttrPoints[u.id]||{};
+  const pa = c.gam.studentPA[u.id]||0;
+  const medals = (c.gam.studentMedals[u.id]||[]).map(id=>c.gam.medals.find(m=>m.id===id)).filter(Boolean);
+  return `<div class="card" style="margin-top:14px;background:#1a0f3f;">
+    <h4>🕹️ Painel de gamificação</h4>
+    <div style="margin-bottom:10px;">
+      <strong>Avatar:</strong>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;">
+        ${c.gam.avatars.map(em=>`<span class="medal" style="font-size:24px;cursor:pointer;border:${c.gam.studentAvatar[u.id]===em?'3px solid var(--teal)':'none'};" onclick="chooseAvatar('${c.id}','${em}')">${em}</span>`).join('')}
+      </div>
+    </div>
+    <div style="margin-bottom:10px;"><strong>Pontos de Atributo disponíveis:</strong> ${pa}
+      ${c.gam.attributes.map(a=>`<div style="display:flex;align-items:center;gap:8px;margin:4px 0;">
+        <span style="width:110px;">${a.name}</span>
+        <div class="progress-outer" style="flex:1;height:12px;"><div class="progress-inner" style="width:${Math.min(100,(att[a.id]||0)*10)}%;"></div></div>
+        <span>${att[a.id]||0}</span>
+        <button class="btn small" ${pa<=0?'disabled':''} onclick="spendPA('${c.id}','${a.id}')">+1</button>
+      </div>`).join('')}
+    </div>
+    <div><strong>Medalhas:</strong> ${medals.length? medals.map(m=>m.icon+' '+m.name).join(' · ') : '<span class="muted">nenhuma ainda</span>'}</div>
+  </div>`;
+}
+async function chooseAvatar(classId, emoji){
+  const c=getClass(classId); const u=currentUser(); c.gam.studentAvatar[u.id]=emoji; await persistAndRoute();
+}
+async function spendPA(classId, attrId){
+  const c=getClass(classId); const u=currentUser();
+  if((c.gam.studentPA[u.id]||0)<=0) return;
+  c.gam.studentPA[u.id]-=1;
+  c.gam.studentAttrPoints[u.id] = c.gam.studentAttrPoints[u.id]||{};
+  c.gam.studentAttrPoints[u.id][attrId] = (c.gam.studentAttrPoints[u.id][attrId]||0)+1;
+  await persistAndRoute();
+  toast('Atributo aumentado!','💪');
+}
+
+/* ============== NOTIFICAÇÕES ============== */
+function renderNotifications(){
+  const u = currentUser();
+  if(!u) return renderLogin();
+  const list = DB.notifications.filter(n=>n.userId===u.id);
+  list.forEach(n=>n.read=true);
+  saveDB();
+  return `<h2>🔔 Notificações</h2>
+  ${list.length? list.map(n=>`<div class="card" style="margin-bottom:8px;">${n.text}<div class="muted">${fmtDate(n.date)}</div></div>`).join('')
+   : `<div class="empty card"><div class="big">📭</div>Nenhuma notificação por aqui.</div>`}
+  <button class="btn ghost" onclick="go(currentUser().role==='aluno'?'studentArea':'dashboard')">Voltar</button>`;
+}
+
+boot();
+</script>
+</body>
+</html>
